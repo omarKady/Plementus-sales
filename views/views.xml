@@ -1,0 +1,104 @@
+<odoo>
+  <data>
+    <!-- explicit list view definition
+
+    <record model="ir.ui.view" id="sales_list_view">
+      <field name="name">Sales List View</field>
+      <field name="model">sales</field>
+      <field name="arch" type="xml">
+        <tree>
+          <field name="partner_id"/>
+        </tree>
+      </field>
+    </record>
+
+    <record model="ir.ui.view" id="sales_form_view">
+      <field name="name">Sales For View</field>
+      <field name="model">sales</field>
+      <field name="arch" type="xml">
+        <form>
+          <field name="partner_id"/>
+        </form>
+      </field>
+    </record>
+
+-->
+    <record id="sales_tree_view" model="ir.ui.view">
+        <field name="name">Sales Tree View</field>
+        <field name="model">sales</field>
+        <field name="arch" type="xml">
+            <tree>
+              <field name="order_state"/>
+              <field name="create_date"/>
+              <field name="partner_id"/>
+              <field name="net_total"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="sales_form_view" model="ir.ui.view">
+        <field name="name">Sales Form View</field>
+        <field name="model">sales</field>
+        <field name="arch" type="xml">
+            <form>
+              <header>
+                  <button name="confirm_sale_order" type="object"
+                          string="Confirm Order" class="btn-primary"
+                          attrs="{'invisible': [('order_state', '!=', 'new')]}"/>
+                  <button name="create_invoice" type="object"
+                          string="Create Invoice" class="btn-primary"
+                          attrs="{'invisible': [('order_state', '!=', 'confirmed')]}"/>
+                  <field name="order_state" widget="statusbar"/>
+              </header>
+              <sheet>
+                <group>
+                  <field name="partner_id" attrs="{'readonly': [('order_state', '=', 'confirmed')]}"/>
+                    <field name="line_id" attrs="{'readonly': [('order_state', '=', 'confirmed')]}">
+                        <tree editable="top">
+                            <field name="product_id"/>
+                            <field name="unit_of_measure"/>
+                            <field name="price"/>
+                            <field name="quantity"/>
+                            <field name="subtotal"/>
+                        </tree>
+                        <form>
+                            <group>
+                                <group>
+                                    <field name="product_id"/>
+                                    <field name="unit_of_measure"/>
+                                </group>
+                                <group>
+                                    <field name="price"/>
+                                    <field name="quantity"/>
+                                    <field name="subtotal"/>
+                                </group>
+                            </group>
+                        </form>
+                    </field>
+                    <field name="sum_of_subtotal"/>
+                    <field name="discount_amount" attrs="{'readonly': [('order_state', '=', 'confirmed')]}"/>
+                    <field name="discount_percentage" attrs="{'readonly': [('order_state', '=', 'confirmed')]}"/>
+                    <field name="net_total"/>
+                </group>
+              </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="plementus_sales_action" model="ir.actions.act_window">
+      <field name="name">Plementus Sales Action</field>
+      <field name="res_model">sales</field>
+      <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem
+            id="plementus_root"
+            name="Plementus" />
+
+    <menuitem
+            id="sales_menu"
+            name="Sales Order"
+            parent="plementus_root"
+            action="plementus_sales_action"/>
+  </data>
+</odoo>

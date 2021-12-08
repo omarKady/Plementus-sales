@@ -1,0 +1,3 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_plementus_sales,plementus.sales,model_sales,base.group_user,1,1,1,1
+access_plementus_sale_lines,plementus.sale.lines,model_sale_lines,base.group_user,1,1,1,1
